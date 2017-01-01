@@ -3,9 +3,82 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-
+	<link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
-	都增刚是丁成成的爸爸
+	<div class="container">
+		<form role="form">
+			<div class="form-group">
+				<label for="username">用户名</label>
+				<input type="text" id="username" class="form-control" v-model='username'>
+			</div>
+			<div class="form-group">
+				<label for="age">年龄</label>
+				<input type="text" id="age" class="form-control" v-model='age'>
+			</div>
+			<div class="form-group">
+				<input type="button" value="添加" class="btn btn-primary" @click='add'>
+				<input type="button" value="重置" class="btn btn-primary" @click='reset'>
+			</div>
+			<hr>
+			<table class="table table-bordered table-hover">
+				<caption class="h2 text-info text-center">用户列表</caption>
+				<tr class="text-danger">
+					<td class="text-center">序号</td>
+					<td class="text-center">姓名</td>
+					<td class="text-center">年龄</td>
+					<td class="text-center">操作</td>
+				</tr>
+				<tr v-for='(item,index) in myData'>
+					<td class="text-center">{{index+1}}</td>
+					<td class="text-center">{{item.name}}</td>
+					<td class="text-center">{{item.age}}</td>
+					<td class="text-center"><button class="btn btn-primary btn-sm" type="button" @click='deletemsg'>删除</button></td>
+				</tr>
+				<tr class="text-right" v-show="myData.length !=0">
+					<td colspan="4">
+						<button class="btn btn-danger btn-sm" type="button" @click='deleteall'>全部删除</button>
+					</td>
+				</tr>
+				<tr v-show="myData.length==0">
+					<td colspan="4" class="text-center text-muted">
+						<p>暂无数据...</p>
+					</td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+	<script src="vue.min.js"></script>
+	<script>
+		new Vue({
+			el:'.container',
+			data:{
+				myData:[],
+				username:'',
+				age:''
+			},
+			methods:{
+				add(){
+					this.myData.push({
+						name:this.username,
+						age:this.age
+					});
+					this.username = '';
+					this.age = '';
+				},
+				reset(){
+					this.username = '';
+					this.age = '';
+				},
+				deletemsg(){
+					this.myData.splice(this.index,1);
+				},
+				deleteall(){
+					this.myData = [];
+				}
+			}
+		})
+	</script>
 </body>
 </html>
